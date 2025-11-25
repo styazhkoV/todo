@@ -1,19 +1,27 @@
 package kz.todo.app.Entity;
 
-import org.springframework.data.annotation.CreatedDate;
+import jakarta.persistence.*;
+import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp; // Удобнее для старта
+import java.time.LocalDateTime;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
-
+@Entity             // 1. Обязательно: Это сущность БД
+@Data               // 2. Lombok: Геттеры, Сеттеры, toString
+@Table(name = "tasks")
 public class Task {
-    @Id
-    @GeneratedValue
-    private Long id;
-    @NotBlank
-    private String title;
-    private String description;     
-    private boolean completed;
-    private CreatedDate LocalDateTime;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @jakarta.validation.constraints.NotBlank // Валидация
+    private String title;
+
+    private String description;
+    
+    private boolean completed;
+
+    @CreationTimestamp // 3. Hibernate сам заполнит время при сохранении
+    @Column(updatable = false) // Дату создания менять нельзя
+    private LocalDateTime createdAt; // Имя переменной - createdAt, Тип - LocalDateTime
 }
