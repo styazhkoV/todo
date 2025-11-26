@@ -56,4 +56,9 @@ public class TaskController {
         // Возвращаем 204 No Content (тело ответа пустое)
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/status/{isCompleted}")
+    public ResponseEntity<List<TaskResponseDto>> getTasksByStatus(@PathVariable boolean isCompleted) {
+        List<Task> tasks = taskService.getTasksByStatus(isCompleted);
+        return ResponseEntity.ok(taskMapper.toDtoList(tasks));          
+    }
 }

@@ -20,6 +20,10 @@ public class TaskService {
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
+    // Метод для поиска задач по статусу (выполнено / не выполнено)
+    public List<Task> getTasksByStatus(boolean isCompleted) {
+        return taskRepository.findByCompleted(isCompleted);
+    }
 
     public Task getTaskById(Long id) {
         // Возвращаем null или можно кинуть ошибку позже

@@ -17,6 +17,7 @@ public interface TaskMapper {
     // Превращаем DTO от клиента в Сущность для БД
     // (Игнорируем id, так как он создается базой)
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
     Task toEntity(TaskRequestDto dto);
 
     // Превращаем Сущность из БД в DTO для ответа
