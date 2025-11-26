@@ -61,4 +61,9 @@ public class TaskController {
         List<Task> tasks = taskService.getTasksByStatus(isCompleted);
         return ResponseEntity.ok(taskMapper.toDtoList(tasks));          
     }
+    @GetMapping("/search")
+    public ResponseEntity<List<TaskResponseDto>> searchTasksByStatus(@RequestParam boolean isCompleted) {
+        List<Task> tasks = taskService.getTasksByStatus(isCompleted);
+        return ResponseEntity.ok(taskMapper.toDtoList(tasks));          
+    }
 }

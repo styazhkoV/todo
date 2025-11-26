@@ -20,10 +20,7 @@ public class TaskService {
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
-    // Метод для поиска задач по статусу (выполнено / не выполнено)
-    public List<Task> getTasksByStatus(boolean isCompleted) {
-        return taskRepository.findByCompleted(isCompleted);
-    }
+
 
     public Task getTaskById(Long id) {
         // Возвращаем null или можно кинуть ошибку позже
@@ -47,5 +44,10 @@ public class TaskService {
     }
     public void deleteTask(Long id) {
         taskRepository.deleteById(id);
+    }
+
+    public List<Task> getTasksByStatus(boolean isCompleted) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getTasksByStatus'");
     }
 }

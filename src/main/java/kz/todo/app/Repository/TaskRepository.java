@@ -8,7 +8,7 @@ import java.util.List;
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
     // Spring САМ напишет SQL запрос: SELECT * FROM tasks WHERE completed = ?
-    List<Task> findByCompleted(boolean completed);
+    List<Task> findByCompleted(boolean isCompleted);
 
     // Можно добавлять другие методы по имени, но тело писать НЕ НУЖНО.
     // Например:
