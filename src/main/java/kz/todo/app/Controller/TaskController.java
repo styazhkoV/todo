@@ -1,8 +1,9 @@
-package kz.todo.app.Service;
+package kz.todo.app.Controller;
 import kz.todo.app.Entity.Task;
-
+import kz.todo.app.Service.TaskService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class TaskController {
     private final TaskService taskService;
 
     @PostMapping
-    public Task createTask(@RequestBody Task task) {
+    public Task createTask(@Valid @RequestBody Task task) {
         return taskService.createNewTask(task);
     }
 
