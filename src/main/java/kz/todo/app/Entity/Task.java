@@ -25,6 +25,6 @@ public class Task {
     @CreationTimestamp // 3. Hibernate сам заполнит время при сохранении
     @Column(updatable = false) // Дату создания менять нельзя
     private LocalDateTime createdAt; // Имя переменной - createdAt, Тип - LocalDateTime
-    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 }

@@ -2,8 +2,6 @@ package kz.todo.app.Service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import kz.todo.app.Entity.Task;
 import kz.todo.app.Repository.TaskRepository;

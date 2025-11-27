@@ -1,7 +1,6 @@
 package kz.todo.app.Controller;
 
 import kz.todo.app.Mapper.TaskMapper;
-import kz.todo.app.Repository.TaskRepository;
 import kz.todo.app.Entity.Task;
 import kz.todo.app.Service.TaskService;
 import kz.todo.app.DTO.TaskRequestDto;
@@ -23,7 +22,7 @@ public class TaskController {
 
     private final TaskService taskService;
     private final TaskMapper taskMapper;
-    private final TaskRepository taskRepository;
+
 
     @PostMapping
     public ResponseEntity<TaskResponseDto> createTask(@Valid @RequestBody TaskRequestDto taskRequestDto) {
