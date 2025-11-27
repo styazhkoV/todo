@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp; // Удобнее для старта
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity             // 1. Обязательно: Это сущность БД
 @Data               // 2. Lombok: Геттеры, Сеттеры, toString
@@ -24,4 +25,6 @@ public class Task {
     @CreationTimestamp // 3. Hibernate сам заполнит время при сохранении
     @Column(updatable = false) // Дату создания менять нельзя
     private LocalDateTime createdAt; // Имя переменной - createdAt, Тип - LocalDateTime
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    private List<Comment> comments;
 }
