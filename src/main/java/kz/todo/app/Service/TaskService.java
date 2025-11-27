@@ -1,7 +1,9 @@
 package kz.todo.app.Service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional; // Важно для транзакций
+import org.springframework.transaction.annotation.Transactional;
+
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import kz.todo.app.Entity.Task;
 import kz.todo.app.Repository.TaskRepository;
@@ -13,6 +15,11 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
 
+
+    public List<Task> getTasksByStatus(boolean isCompleted) {
+        return taskRepository.findByCompleted(isCompleted);
+    }
+
     public Task createNewTask(Task task) {
         return taskRepository.save(task);
     }
@@ -21,33 +28,39 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-
     public Task getTaskById(Long id) {
-        // Возвращаем null или можно кинуть ошибку позже
         return taskRepository.findById(id).orElse(null); 
     }
 
-    @Transactional // Гарантирует, что обновление пройдет целиком или не пройдет вообще
-    public Task updateTask(Long id, Task updatedTask) {
+    @Transactional
+    public Task markAsCompleted(Long id, Task markAsCompleted) {
         Task existingTask = taskRepository.findById(id).orElse(null);
-        
         if (existingTask != null) {
-            // Обновляем поля
-            existingTask.setTitle(updatedTask.getTitle());
-            existingTask.setDescription(updatedTask.getDescription());
-            existingTask.setCompleted(updatedTask.isCompleted());
-            
-            // save() для существующего ID работает как UPDATE
+            existingTask.setTitle(markAsCompleted.getTitle());
+            existingTask.setDescription(markAsCompleted.getDescription());
+            existingTask.setCompleted(markAsCompleted.isCompleted());
             return taskRepository.save(existingTask); 
         }
         return null; 
     }
+
     public void deleteTask(Long id) {
         taskRepository.deleteById(id);
     }
 
-    public List<Task> getTasksByStatus(boolean isCompleted) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTasksByStatus'");
+
+    public Task markAsCompleted(Long id) {
+    // 1. Мы получаем чистую Сущность (Task), а не ResponseEntity
+    Task task = getTaskById(id); 
+
+    if (task != null) {
+        // 2. Используем СЕТТЕР (setCompleted), чтобы изменить значение
+        task.setCompleted(true); 
+        
+        // 3. Сохраняем и возвращаем
+        return taskRepository.save(task); 
     }
+    return null;
+    }
+    
 }
