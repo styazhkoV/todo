@@ -32,15 +32,12 @@ public class TaskService {
     }
 
     @Transactional
-    public Task markAsCompleted(Long id, Task markAsCompleted) {
+    public Task updateTask(Long id, Task taskDetails) {
         Task existingTask = taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task not found with id: " + id));
-        if (existingTask != null) {
-            existingTask.setTitle(markAsCompleted.getTitle());
-            existingTask.setDescription(markAsCompleted.getDescription());
-            existingTask.setCompleted(markAsCompleted.isCompleted());
-            return taskRepository.save(existingTask); 
-        }
-        return null; 
+        existingTask.setTitle(taskDetails.getTitle());
+        existingTask.setDescription(taskDetails.getDescription());
+        existingTask.setCompleted(taskDetails.isCompleted());
+        return taskRepository.save(existingTask);
     }
 
     public void deleteTask(Long id) {
