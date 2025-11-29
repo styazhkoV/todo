@@ -28,12 +28,12 @@ public class TaskService {
     }
 
     public Task getTaskById(Long id) {
-        return taskRepository.findById(id).orElse(null); 
+        return taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task not found with id: " + id)); 
     }
 
     @Transactional
     public Task markAsCompleted(Long id, Task markAsCompleted) {
-        Task existingTask = taskRepository.findById(id).orElse(null);
+        Task existingTask = taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task not found with id: " + id));
         if (existingTask != null) {
             existingTask.setTitle(markAsCompleted.getTitle());
             existingTask.setDescription(markAsCompleted.getDescription());
@@ -44,7 +44,8 @@ public class TaskService {
     }
 
     public void deleteTask(Long id) {
-        taskRepository.deleteById(id);
+        Task task = taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task not found with id: " + id));
+        taskRepository.delete(task);
     }
 
 
