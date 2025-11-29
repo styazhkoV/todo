@@ -29,7 +29,7 @@ public class TaskController {
         Task task = taskMapper.toEntity(taskRequestDto);
         Task createdTask = taskService.createNewTask(task);
         return ResponseEntity.status(HttpStatus.CREATED)
-                             .body(taskMapper.toDto(createdTask));
+                .body(taskMapper.toDto(createdTask));
     }
 
     @GetMapping
@@ -62,16 +62,8 @@ public class TaskController {
     @GetMapping("/search")
     public ResponseEntity<List<TaskResponseDto>> searchTasksByStatus(@RequestParam boolean isCompleted) {
         List<Task> tasks = taskService.getTasksByStatus(isCompleted);
-        return ResponseEntity.ok(taskMapper.toDtoList(tasks));          
+        return ResponseEntity.ok(taskMapper.toDtoList(tasks));
     }
 
-    @PostMapping("path")
-    public String postMethodName(@RequestBody String entity) {
-        //TODO: process POST request
-        
-        return entity;
-    }
-   
 
-}
     

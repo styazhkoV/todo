@@ -47,18 +47,6 @@ public class TaskService {
     }
 
 
-    public Task markAsCompleted(Long id) {
-    // 1. Мы получаем чистую Сущность (Task), а не ResponseEntity
-    Task task = getTaskById(id); 
 
-    if (task != null) {
-        // 2. Используем СЕТТЕР (setCompleted), чтобы изменить значение
-        task.setCompleted(true); 
-        
-        // 3. Сохраняем и возвращаем
-        return taskRepository.save(task); 
-    }
-    return null;
-    }
     
 }
