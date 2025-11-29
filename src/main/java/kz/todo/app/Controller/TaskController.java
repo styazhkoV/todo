@@ -1,5 +1,7 @@
 package kz.todo.app.Controller;
 
+import kz.todo.app.DTO.CommentRequestDto;
+import kz.todo.app.DTO.CommentResponseDto;
 import kz.todo.app.Mapper.TaskMapper;
 import kz.todo.app.Entity.Task;
 import kz.todo.app.Service.TaskService;
@@ -64,6 +66,22 @@ public class TaskController {
         List<Task> tasks = taskService.getTasksByStatus(isCompleted);
         return ResponseEntity.ok(taskMapper.toDtoList(tasks));
     }
+//    @GetMapping("/{taskId}/comments")
+//    public ResponseEntity<CommentResponseDto> createComment(
+//            @PathVariable Long taskId,
+//            @Valid @RequestBody CommentRequestDto commentDto) {
+//
+//        CommentResponseDto createdComment = taskService.addCommentToTask(taskId, commentDto);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(createdComment);
+//    }
+    @PostMapping("/{taskId}/commentsAdd")
+    public ResponseEntity<CommentResponseDto> createComment(
+            @PathVariable Long taskId,
+            @Valid @RequestBody CommentRequestDto commentDto) {
+        CommentResponseDto createdComment = taskService.addCommentToTask(taskId, commentDto);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(createdComment);
+    }
+}
 
 
     
