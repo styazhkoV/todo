@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import kz.todo.app.Entity.Task;
 import kz.todo.app.Repository.TaskRepository;
+import kz.todo.app.Exception.ResourceNotFoundException;
 import java.util.List;
 
 @Service
