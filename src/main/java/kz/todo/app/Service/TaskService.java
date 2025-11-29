@@ -1,11 +1,23 @@
 package kz.todo.app.Service;
 
+import jakarta.validation.Valid;
+import kz.todo.app.DTO.CommentRequestDto;
+import kz.todo.app.DTO.CommentResponseDto;
+import lombok.NonNull;
+import lombok.experimental.NonFinal;
+import org.hibernate.annotations.Comments;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import kz.todo.app.Entity.Task;
 import kz.todo.app.Repository.TaskRepository;
 import kz.todo.app.Exception.ResourceNotFoundException;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import java.util.List;
 
 @Service
@@ -13,6 +25,7 @@ import java.util.List;
 public class TaskService {
 
     private final TaskRepository taskRepository;
+    private Long taskId;
 
 
     public List<Task> getTasksByStatus(boolean isCompleted) {
@@ -41,11 +54,12 @@ public class TaskService {
     }
 
     public void deleteTask(Long id) {
-        Task task = taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task not found with id: " + id));
-        taskRepository.delete(task);
+        taskRepository.deleteById(id);
     }
 
+    public CommentResponseDto addCommentToTask(Long taskId, @Valid CommentRequestDto commentDto) {
+        Task task = getTaskById(taskId);
+        return null;
+    };
 
-
-    
 }
