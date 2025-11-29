@@ -7,7 +7,7 @@ import kz.todo.app.Entity.Task;
 import kz.todo.app.Service.TaskService;
 import kz.todo.app.DTO.TaskRequestDto;
 import kz.todo.app.DTO.TaskResponseDto;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,16 +15,14 @@ import jakarta.validation.Valid;
 
 import java.util.List;
 
-
-
 @RestController
 @RequestMapping("/tasks")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TaskController {
 
     private final TaskService taskService;
     private final TaskMapper taskMapper;
-
+    // Убрали taskRepository - он тут не нужен, работаем через Service
 
     @PostMapping
     public ResponseEntity<TaskResponseDto> createTask(@Valid @RequestBody TaskRequestDto taskRequestDto) {
@@ -43,6 +41,9 @@ public class TaskController {
     @GetMapping("/{id}")
     public ResponseEntity<TaskResponseDto> getTaskById(@PathVariable Long id) {
         Task task = taskService.getTaskById(id);
+        if (task == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(taskMapper.toDto(task));
     }
 
@@ -59,29 +60,19 @@ public class TaskController {
         return ResponseEntity.noContent().build();
     }
 
-    // ОСТАВЛЯЕМ ТОЛЬКО ЭТОТ МЕТОД ДЛЯ ПОИСКА
-    // URL будет: GET /tasks/search?isCompleted=true
     @GetMapping("/search")
     public ResponseEntity<List<TaskResponseDto>> searchTasksByStatus(@RequestParam boolean isCompleted) {
         List<Task> tasks = taskService.getTasksByStatus(isCompleted);
         return ResponseEntity.ok(taskMapper.toDtoList(tasks));
     }
-//    @GetMapping("/{taskId}/comments")
-//    public ResponseEntity<CommentResponseDto> createComment(
-//            @PathVariable Long taskId,
-//            @Valid @RequestBody CommentRequestDto commentDto) {
-//
-//        CommentResponseDto createdComment = taskService.addCommentToTask(taskId, commentDto);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(createdComment);
-//    }
-    @PostMapping("/{taskId}/commentsAdd")
+
+    @PostMapping("/{taskId}/comments")
     public ResponseEntity<CommentResponseDto> createComment(
             @PathVariable Long taskId,
             @Valid @RequestBody CommentRequestDto commentDto) {
+
         CommentResponseDto createdComment = taskService.addCommentToTask(taskId, commentDto);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(createdComment);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdComment);
     }
 }
-
-
-    
